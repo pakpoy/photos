@@ -1,26 +1,35 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import PhotosView from "../views/PhotosView.vue";
+import PasswordView from "../views/PasswordView.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "photos-view",
+    component: PhotosView,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/password",
+    name: "password-view",
+    component: PasswordView,
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to) => {
+  const vuex = await import("@/store");
+  console.log(to);
+  if (to.path !== "/password") {
+    console.log("here");
+    console.log(vuex.store.state);
+    if (vuex.store.state.token === "") {
+      return "/password";
+    }
+  }
 });
 
 export default router;
