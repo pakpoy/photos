@@ -34,11 +34,11 @@ async function main() {
                 datePhotographed: moment(
                   exif["DateTime"].value[0],
                   "YYYY:MM:DD HH:mm:ss"
-                ).toDate(),
+                ).utc().toDate(),
                 datePhotographedGrouping: moment(
                   exif["DateTime"].value[0],
                   "YYYY:MM:DD HH:mm:ss"
-                ).format("YYYY/DDD"),
+                ).utc().format("YYYY/DDD"),
               },
               { upsert: true, new: true }
             );

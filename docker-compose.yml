@@ -10,6 +10,6 @@ services:
     volumes:
       - ./keys:/app/keys
       - ./thumbs:/app/thumbs
-      - /Users/will/Desktop/wpcrall:/photos
+      - /Users/will/Desktop/wcprtest:/photos
     env_file:
       - .env-docker
