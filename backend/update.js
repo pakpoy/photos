@@ -59,8 +59,13 @@ async function main() {
   }
 }
 
-main().then(() => {
-  console.log("done");
-}).catch((err) => {
-  throw new Error(err);
-});
+
+
+setInterval(function () {
+  main().then(() => {
+    console.log("done");
+  }).catch((err) => {
+    throw new Error(err);
+  });
+}, 600000);
+
