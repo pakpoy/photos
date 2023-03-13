@@ -37,6 +37,9 @@ export const store = createStore({
           url: `/api/photos/all`,
           method: "GET",
           headers: { Authorization: "Bearer " + token.data.token },
+          onDownloadProgress: (progress) => {
+            console.log(progress);
+          },
         });
         commit("setToken", token.data.token);
         commit("setPhotos", photos.data);

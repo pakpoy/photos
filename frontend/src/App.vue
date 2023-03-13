@@ -3,28 +3,18 @@
     <header>
       <p>Will's Perpetual Camera Roll</p>
     </header>
-    <router-view v-if="status !== 'loading'" />
-    <div id="loading-wrap" v-else>
-      <p>Loading</p>
-      <p>While you wait, check out my Twitter</p>
-      <TwitterTimeline
-        url="willpakpoy?ref_src=twsrc%5Etfw"
-        height="500"
-        width="380"
-        lang="en"
-        theme="dark"
-        doNotTrack
-      ></TwitterTimeline>
-    </div>
+    <Transition mode="out-in">
+      <router-view v-if="status == 'loading'" />
+      <loading-view v-else />
+    </Transition>
   </div>
 </template>
 
 <script>
-import TwitterTimeline from "vue-twitter-timeline";
-
+import LoadingView from "@/views/LoadingView";
 export default {
   components: {
-    TwitterTimeline,
+    LoadingView,
   },
   computed: {
     status() {
@@ -55,6 +45,8 @@ html {
 
 body {
   background-color: #151518;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #fff;
 }
 
@@ -70,11 +62,12 @@ header {
   }
 }
 
-#loading-wrap {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.25s ease-in-out;
+}
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
