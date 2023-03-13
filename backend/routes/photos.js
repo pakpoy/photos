@@ -5,7 +5,7 @@ const path = require("path");
 
 router.get("/all", async function (req, res) {
   try {
-    const photos = await Photo.find().sort({datePhotographed: 'desc'})
+    const photos = await Photo.find().sort({datePhotographedUTC: 'desc'})
     console.log(photos);
     res.json(photos)
   } catch(err) {
