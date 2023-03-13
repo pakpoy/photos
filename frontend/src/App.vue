@@ -3,10 +3,10 @@
     <header>
       <p>Will's Perpetual Camera Roll</p>
     </header>
-    <Transition mode="out-in">
-      <router-view v-if="status !== 'loading'" />
-      <loading-view v-else />
-    </Transition>
+    <TransitionGroup mode="out-in">
+      <router-view key="router" v-show="status !== 'loading'" />
+      <loading-view key="loading" v-show="status === 'loading'" />
+    </TransitionGroup>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ body {
 
 header {
   position: sticky;
-  z-index: 99999;
+  z-index: 10;
   top: 0px;
   background-color: #15151850;
   backdrop-filter: saturate(180%) blur(20px);
@@ -64,7 +64,7 @@ header {
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 .v-enter-from,
 .v-leave-to {

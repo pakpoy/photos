@@ -31,6 +31,9 @@ export default {
 
 <style lang="scss">
 #loading-wrap {
+  z-index: 2;
+  position: fixed;
+  top: 10%;
   width: 100%;
   display: flex;
   align-items: center;

@@ -8,6 +8,11 @@ export const store = createStore({
     token: "",
     password: "",
     photos: {},
+    currentlyShowing: {
+      box: false,
+      group: null,
+      image: null,
+    },
   },
   mutations: {
     updateTopLevelStatus(state, status) {

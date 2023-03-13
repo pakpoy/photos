@@ -19,8 +19,17 @@ console.log(folder);
 
 router.get("/:image/thumb.webp", async function (req, res) {
   try {
-    path.resolve
     res.sendFile(path.join(folder, `${req.params.image}.webp`));
+  } catch(err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+})
+
+router.get("/:image", async function (req, res) {
+  try {
+    const photo = Photo.findById(req.params.image);
+    res.json(photo);
   } catch(err) {
     console.log(err)
     res.status(500).json(err)

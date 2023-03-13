@@ -40,7 +40,9 @@ export default {
         method: "GET",
         headers: { Authorization: "Bearer " + this.$store.state.token },
       });
-      this.image = `data:image/webp;base64,${_arrayBufferToBase64(image.data)}`;
+      this.image = `data:${
+        image.headers["content-type"]
+      };base64,${_arrayBufferToBase64(image.data)}`;
     },
     intersectionChange(entry) {
       entry.forEach(({ target, isIntersecting }) => {

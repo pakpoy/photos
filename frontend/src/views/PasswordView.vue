@@ -37,7 +37,7 @@ export default {
 .password-wrap {
   display: flex;
   justify-content: center;
-  margin-top: 17.5%;
+  margin-top: 10%;
   .password {
     h1 {
       margin: 0;
