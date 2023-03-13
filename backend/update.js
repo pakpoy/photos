@@ -59,13 +59,15 @@ async function main() {
   }
 }
 
-
-
-setInterval(function () {
+function runUpdate() {
   main().then(() => {
     console.log("done");
   }).catch((err) => {
     throw new Error(err);
   });
-}, 600000);
+}
+
+
+runUpdate()
+setInterval(runUpdate, 600000);
 
