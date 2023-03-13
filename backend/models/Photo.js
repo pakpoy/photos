@@ -11,8 +11,11 @@ const PhotoModel = new Schema({
     type: Object,
     required: true
   },
-  datePhotographed: {
+  datePhotographedUTC: {
     type: Date
+  },
+  datePhotographedLocalTZ: {
+    type: String
   },
   datePhotographedGrouping: { type: String }
 });

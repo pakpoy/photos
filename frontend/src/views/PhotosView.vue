@@ -6,7 +6,7 @@
       :key="photoGroup"
       :id="`photoGroup-${photoGroup[0].datePhotographedGrouping}`"
     >
-      <h1>{{ dateToDate(photoGroup[0].datePhotographed) }}</h1>
+      <h1>{{ dateToDate(photoGroup[0].datePhotographedLocalTZ) }}</h1>
       <div class="photos-group">
         <photo-render-background-div
           v-for="photo of photoGroup"
@@ -15,7 +15,7 @@
           :imageUrl="`/api/photos/${photo._id}/thumb.webp`"
           :style="span()"
           ><p>
-            {{ photographedDaysAgo(photo.exif["DateTime"].value[0]) }}
+            {{ photographedDaysAgo(photo.exif["DateTimeOriginal"]) }}
           </p></photo-render-background-div
         >
       </div>

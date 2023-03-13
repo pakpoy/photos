@@ -13,3 +13,5 @@ services:
       - /Users/will/Desktop/wcprtest:/photos
     env_file:
       - .env-docker
+    environment: 
+      TZ: "Australia/Sydney"

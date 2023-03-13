@@ -1,44 +1,43 @@
 const Photo = require("./models/Photo");
-const exifreader = require("exifreader");
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
 const mime = require("mime-kind");
 const moment = require("moment");
+const exifr = require("exifr");
 
 async function main() {
   try {
+    console.log(moment().format())
     const allPhotos = await Photo.find().select("path");
-    console.log(allPhotos);
     await fs.promises.mkdir(path.join("../thumbs/"), { recursive: true });
     const folder = await fs.promises.readdir(process.env.DIR_PHOTOS);
     for (let i = 0; i < folder.length; i++) {
       const thisFile = folder[i];
       const filePath = path.resolve(process.env.DIR_PHOTOS, thisFile);
       if (allPhotos.filter(e => e.path === filePath).length === 0) {
-        console.log(filePath);
         const file = await fs.promises.readFile(filePath);
         const mimeType = await mime(filePath);
         if (mimeType && mimeType.mime === "image/jpeg") {
           try {
-            const exif = exifreader.load(file);
+            const exif = await exifr.parse(file);
             const sharpBuffer = await sharp(file)
               .resize({ width: 800 })
               .grayscale()
               .toFormat("webp")
               .toBuffer();
+            console.log(moment(exif["DateTimeOriginal"]).utcOffset(exif["OffsetTimeOriginal"]))
             const photoRecord = await Photo.findOneAndUpdate(
               { path: filePath },
               {
                 exif,
-                datePhotographed: moment(
-                  exif["DateTime"].value[0],
-                  "YYYY:MM:DD HH:mm:ss"
-                ).utc().toDate(),
-                datePhotographedGrouping: moment(
-                  exif["DateTime"].value[0],
-                  "YYYY:MM:DD HH:mm:ss"
-                ).utc().format("YYYY/DDD"),
+                datePhotographedUTC: exif["DateTimeOriginal"],
+                datePhotographedGrouping: moment(exif["DateTimeOriginal"]).format("YYYY/DDD"),
+                datePhotographedLocalTZ: moment(exif["DateTimeOriginal"]).utcOffset(exif["OffsetTimeOriginal"]).format(),
+                // datePhotographedGrouping: moment(
+                //   exif["DateTime"].value[0],
+                //   "YYYY:MM:DD HH:mm:ss"
+                // ).format("YYYY/DDD"),
               },
               { upsert: true, new: true }
             );
@@ -62,4 +61,6 @@ async function main() {
 
 main().then(() => {
   console.log("done");
+}).catch((err) => {
+  throw new Error(err);
 });
