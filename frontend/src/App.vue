@@ -4,7 +4,7 @@
       <p>Will's Perpetual Camera Roll</p>
     </header>
     <Transition mode="out-in">
-      <router-view v-if="status == 'loading'" />
+      <router-view v-if="status !== 'loading'" />
       <loading-view v-else />
     </Transition>
   </div>
